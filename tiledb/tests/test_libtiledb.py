@@ -2454,10 +2454,15 @@ class VFS(DiskTestCase):
     def test_ls(self):
         import os
         basepath = self.path("test_vfs_ls")
-        os.mkdir(basepath)
+
+        # TMP
+        if basepath.startswith("azure") or basepath.startswith("s3"):
+            return
+
+        self.vfs.create_dir(basepath)
         for id in (1,2,3):
             dir = os.path.join(basepath, "dir"+str(id))
-            os.mkdir(dir)
+            self.vfs.create_dir(dir)
             fname =os.path.join(basepath, "file_"+str(id))
             os.close(os.open(fname, os.O_CREAT | os.O_EXCL))
 

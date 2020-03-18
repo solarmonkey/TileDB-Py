@@ -16,20 +16,20 @@ from numpy.testing import assert_equal, assert_array_equal
 class DiskTestCase(TestCase):
     pathmap = dict()
     prefix = None
+    vfs = None
 
     def setUp(self):
         # Note that this setup does not account for ctx config,
         # and doing so would be extremely difficult. Instead,
         # require that any necessary credentials will be provied
         # in the environment.
-        import pdb; pdb.set_trace()
         prefix = os.environ.get("TILEDBPY_TEST_PREFIX", '')
         base = prefix + 'tiledb-' + self.__class__.__name__
         if prefix:
             import tiledb
-            vfs = tiledb.VFS()
-            vfs.create_dir(base)
-            self.rootdir = base
+            self.vfs = tiledb.VFS()
+            self.vfs.create_dir(base)
+            self.rootdir = base+str(random.randint(0,10e10))
             self.prefix = prefix
         else:
             self.rootdir = tempfile.mkdtemp(prefix=base)
@@ -50,6 +50,7 @@ class DiskTestCase(TestCase):
     def path(self, path):
         if self.prefix:
             out = os.path.join(self.rootdir, path)
+            self.vfs.create_dir(out)
         else:
             out = os.path.abspath(os.path.join(self.rootdir, path))
         frame = traceback.extract_stack(limit=2)[-2][2]
