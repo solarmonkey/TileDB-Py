@@ -179,6 +179,7 @@ def build_libtiledb(src_dir):
                     "-DCMAKE_INSTALL_PREFIX={}".format(libtiledb_install_dir),
                     "-DTILEDB_TESTS=OFF",
                     "-DTILEDB_S3=ON",
+                    "-DTILEDB_GCS=ON",
                     "-DTILEDB_HDFS={}".format("ON" if os.name == "posix" else "OFF"),
                     "-DTILEDB_INSTALL_LIBDIR=lib",
                     "-DTILEDB_CPP_API=ON",

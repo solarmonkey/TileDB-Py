@@ -118,6 +118,7 @@ cdef extern from "tiledb/tiledb.h":
         TILEDB_POSTORDER
 
     ctypedef enum tiledb_filesystem_t:
+        TILEDB_GCS
         TILEDB_HDFS
         TILEDB_S3
 

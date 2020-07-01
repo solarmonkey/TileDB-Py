@@ -5596,6 +5596,10 @@ cdef class VFS(object):
             check_error(self.ctx,
                         tiledb_ctx_is_supported_fs(self.ctx.ptr, TILEDB_HDFS, &supports))
             return bool(supports)
+        elif scheme == "gcs":
+            check_error(self.ctx,
+                        tiledb_ctx_is_supported_fs(self.ctx.ptr, TILEDB_GCS, &supports))
+            return bool(supports)
         else:
             raise ValueError("unsupported vfs scheme '{0!s}://'".format(scheme))
 
